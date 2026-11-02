@@ -1,0 +1,5 @@
+# variables.yml
+flag_secret:
+  - type: string
+    length: 12
+    prohibited: ["root", "admin", "password", "kioptrix"]

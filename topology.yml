@@ -1,0 +1,34 @@
+# topology.yml
+name: lab-kioptrix-level1
+description: "Lab CyberRangeCZ - Cycle de compromission complet (Kioptrix Level 1)"
+
+hosts:
+  - name: kali
+    base_box:
+      image: kali-linux-latest
+      flavor: standard.medium
+  - name: kioptrix
+    base_box:
+      image: kioptrix-level-1-image
+      flavor: standard.small
+
+routers:
+  - name: main-router
+    base_box:
+      image: debian-11-routing
+      flavor: standard.small
+
+networks:
+  - name: secure-sandbox-net
+    cidr: 10.10.40.0/24
+
+net_mappings:
+  - host: kali
+    network: secure-sandbox-net
+    ip: 10.10.40.5
+  - host: kioptrix
+    network: secure-sandbox-net
+    ip: 10.10.40.101
+  - router: main-router
+    network: secure-sandbox-net
+    ip: 10.10.40.1

@@ -1,0 +1,52 @@
+# linear-matrix.yml
+title: "TP Kioptrix Level 1 - Format TryHackMe"
+description: "S'approprier le cycle complet reconnaissance -> énumération -> exploitation"
+estimated_duration: 120
+
+stages:
+  - type: info
+    title: "Introduction & Objectifs"
+    content: |
+      ### 🎯 Objectif pédagogique
+      S'approprier le cycle complet reconnaissance → énumération → exploitation sur une cible simple.
+      
+      ### 🛡️ Compétences visées
+      * Découvrir une machine sur le réseau local (ARP, netdiscover).
+      * Scanner les ports et services avec Nmap.
+      * Identifier un service obsolète et l'exploiter.
+
+  - type: game
+    title: "Phase 1 : Reconnaissance et Énumération"
+    content: |
+      Lancez un scan de découverte (`netdiscover`) suivi d'un scan approfondi de tous les ports TCP (`nmap -p- -sC -sV`) sur la cible découverte.
+    questions:
+      - answer: "netdiscover"
+        score: 10
+        text: "Quelle commande réseau basée sur le protocole ARP avez-vous utilisée pour découvrir l'adresse IP de la cible ?"
+      - answer: "6"
+        score: 10
+        text: "Combien de ports TCP au total ont été détectés comme 'ouverts' (open) ?"
+      - answer: "Apache/1.3.20"
+        score: 10
+        text: "Quelle est la version exacte du serveur web Apache qui tourne sur le port 80 ?"
+
+  - type: game
+    title: "Phase 2 : Analyse et Exploitation"
+    content: |
+      Utilisez `searchsploit` ou `Metasploit` pour analyser la version de Samba découverte. Exploitez le système pour obtenir l'accès root.
+    questions:
+      - answer: "CVE-2003-0201"
+        score: 20
+        text: "Quel est l'identifiant CVE de la vulnérabilité Samba trans2open qui affecte cette machine ?"
+      - answer: "whoami"
+        score: 10
+        text: "Quelle commande tapez-vous dans votre shell pour confirmer votre identity root ?"
+
+  - type: game
+    title: "Phase 3 : Capture du Flag"
+    content: |
+      Allez lire le contenu de la boîte de messagerie de l'administrateur dans `/var/spool/mail/root`.
+    questions:
+      - answer: "THM_KIOPTRIX_{{ flag_secret }}"
+        score: 40
+        text: "Entrez le jeton de validation CyberRangeCZ (Format: THM_KIOPTRIX_XXXXXXXXXXXX) :"
