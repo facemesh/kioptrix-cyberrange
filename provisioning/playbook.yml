@@ -1,0 +1,27 @@
+- name: Provisioning de l'environnement Attaquant
+  hosts: kali
+  become: true
+  tasks:
+    - name: Mise à jour des paquets et outils de reconnaissance
+      apt:
+        name:
+          - nmap
+          - netdiscover
+          - arp-scan
+          - exploitdb
+        state: present
+        update_cache: yes
+
+- name: Provisioning de la Cible Vulnérable
+  hosts: kioptrix
+  become: true
+  tasks:
+    - name: Injection du flag et message dans la boîte de messagerie Root
+      copy:
+        dest: /var/spool/mail/root
+        content: |
+          If you are reading this, you got root. All I can say is, Well Done.
+          Your CyberRangeCZ Verification Token is: THM_KIOPTRIX_{{ flag_secret }}
+        owner: root
+        group: mail
+        mode: '0660'
